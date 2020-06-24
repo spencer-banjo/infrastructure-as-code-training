@@ -20,3 +20,13 @@ variable "key_pair_name" {
   description = "The name of a Key Pair that you've created in AWS and have saved on your computer. You will be able to use this Key Pair to SSH to the EC2 instance."
   type        = string
 }
+
+variable "vpc_id" {
+  description = "The VPC id to attach the security group onto"
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "The Subnet id to use from the VPC id"
+  type        = string
+}

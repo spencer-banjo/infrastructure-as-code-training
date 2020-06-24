@@ -14,6 +14,8 @@ module "example_rails_app_stage" {
   port          = 3000
   ami           = var.ami
   key_pair_name = var.key_pair_name
+  vpc_id        = var.vpc_id
+  subnet_id     = var.subnet_id
 }
 
 module "example_rails_app_prod" {
@@ -25,4 +27,6 @@ module "example_rails_app_prod" {
   port          = 8080
   ami           = var.ami
   key_pair_name = var.key_pair_name
+  vpc_id        = ""
+  subnet_id     = ""
 }

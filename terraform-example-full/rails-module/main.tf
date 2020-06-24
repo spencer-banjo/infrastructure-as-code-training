@@ -1,10 +1,11 @@
 # Create an EC2 instance
 resource "aws_instance" "example_rails_app" {
-  ami             = var.ami
-  instance_type   = "t3.micro"
-  vpc_security_group_ids = [aws_security_group.example_rails_app.id]
-  user_data       = data.template_file.user_data.rendered
-  key_name        = var.key_pair_name
+  ami                     = var.ami
+  instance_type           = "t3.micro"
+  vpc_security_group_ids  = [aws_security_group.example_rails_app.id]
+  user_data               = data.template_file.user_data.rendered
+  key_name                = var.key_pair_name
+  subnet_id               = var.subnet_id
 
   tags = {
     Name = var.name
