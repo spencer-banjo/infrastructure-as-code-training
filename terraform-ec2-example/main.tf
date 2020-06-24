@@ -1,28 +1,6 @@
-variable "region" {}
-
 # Configure the AWS Provider
 provider "aws" {
   region = var.region
-}
-
-variable "team_name" {}
-variable "created_by" {}
-
-# EC2 & networking resource vars
-variable "ami" {}
-variable "instance_type" {}
-variable "subnet_id" {}
-variable "security_group_name" {}
-//variable "my_ip" {}
-variable "ec2_username" {}
-
-# AWS key pair resource vars
-variable "key_name" {}
-//variable "local_key_path" {}
-
-variable "name" {
-  description = "The name of the EC2 instance"
-  default = "terraform-ec2"
 }
 
 data "aws_security_group" "selected" {
@@ -30,16 +8,32 @@ data "aws_security_group" "selected" {
 }
 
 
+data "external" "user" {
+  program = ["./get_user_json.sh"]
+
+  working_dir = path.module
+}
+
+data "aws_subnet" "selected" {
+  filter {
+    name = "tag:Name"
+    values = [var.subnet_name]
+  }
+}
+
+
 //resource "aws_security_group_rule" "my_ip" {
 //  type = "ingress"
-//  from_port = 22 # SSH
+//  from_port = 22
+//  # SSH
 //  to_port = 22
-//  protocol = 6 # TCP
+//  protocol = 6
+//  # TCP
 //  cidr_blocks = [
-//    "${var.my_ip}/32"
+//    "${data.external.user.result.ip}/32"
 //  ]
 //  security_group_id = data.aws_security_group.selected.id
-//  description = var.created_by
+//  description = data.external.user.result.name
 //}
 
 resource "aws_eip" "example_eip" {
@@ -48,16 +42,16 @@ resource "aws_eip" "example_eip" {
 
 # Create an EC2 instance
 resource "aws_instance" "example" {
-  ami                     = var.ami
-  instance_type           = var.instance_type
-  subnet_id               = var.subnet_id
-  vpc_security_group_ids  = [data.aws_security_group.selected.id]
-  key_name                = var.key_name
+  ami = var.ami
+  instance_type = var.instance_type
+  subnet_id = data.aws_subnet.selected.id
+  vpc_security_group_ids = [data.aws_security_group.selected.id]
+  key_name = var.key_name
 
   tags = {
-      Name            = var.name
-      "created-with"  = "terraform"
-      "team:name"     = var.team_name
-      "created-by"    = var.created_by
+    Name = var.name
+    "created-with" = "terraform"
+    "team:name" = var.team_name
+    "created-by" = data.external.user.result.name
   }
 }

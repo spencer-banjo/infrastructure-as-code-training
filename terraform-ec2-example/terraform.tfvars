@@ -1,9 +1,9 @@
 key_name = "intel-sandbox-shared"
 //local_key_path = "/Users/spencer"
-subnet_id = "subnet-0ebaf6c72ca1e04ea" # existing public subnet for sandbox (shared)
+subnet_name = "sandbox-shared-public-0" # existing public subnet for sandbox (shared)
 security_group_name = "launch-wizard-3"
 instance_type = "g4dn.xlarge"
-ami = "ami-0a2363a9cff180a64" # Deep Learning AMI (Ubuntu 18.04) Version 30.0
+ami = "ami-02caf1b6cdf1763ee" # NVIDIA Deep Learning AMI (Ubuntu 18.04)
 ec2_username = "ubuntu"
 
 # standard vars
