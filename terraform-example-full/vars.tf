@@ -21,12 +21,16 @@ variable "key_pair_name" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "The VPC id to attach the security group onto"
+variable "vpc_name" {
+  description = "The VPC name for which to attach the security group onto"
   type        = string
 }
 
-variable "subnet_id" {
-  description = "The Subnet id to use from the VPC id"
+variable "subnet_name" {
+  description = "The Subnet name for which to use in the VPC context"
+  type        = string
+}
+
+variable "team_name" {
   type        = string
 }
