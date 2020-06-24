@@ -2,7 +2,7 @@
 resource "aws_instance" "example_rails_app" {
   ami             = var.ami
   instance_type   = "t3.micro"
-  security_groups = [aws_security_group.example_rails_app.name]
+  vpc_security_group_ids = [aws_security_group.example_rails_app.id]
   user_data       = data.template_file.user_data.rendered
   key_name        = var.key_pair_name
 
@@ -24,6 +24,7 @@ data "template_file" "user_data" {
 resource "aws_security_group" "example_rails_app" {
   name        = var.name
   description = "A Security Group for ${var.name}"
+  vpc_id      = var.vpc_id
 
   # Inbound HTTP from anywhere
   ingress {

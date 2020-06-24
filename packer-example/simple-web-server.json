@@ -1,44 +1,58 @@
 {
-  "variables": {
-    "region": "us-east-2"
-  },
-  "builders": [{
-    "ami_name": "gruntwork-packer-training-rails-{{isotime | clean_resource_name}}",
-    "ami_description": "An Ubuntu AMI that has Ruby on Rails installed.",
-    "instance_type": "t2.micro",
-    "region": "{{user `region`}}",
-    "type": "amazon-ebs",
-    "source_ami_filter": {
-      "filters": {
-        "virtualization-type": "hvm",
-        "architecture": "x86_64",
-        "name": "*ubuntu-xenial-16.04-amd64-server-*",
-        "block-device-mapping.volume-type": "gp2",
-        "root-device-type": "ebs"
+  "builders": [
+    {
+      "ami_description": "An Ubuntu AMI that has Ruby on Rails installed.",
+      "ami_name": "gruntwork-packer-training-rails-{{isotime | clean_resource_name}}",
+      "associate_public_ip_address": true,
+      "instance_type": "t3.micro",
+      "region": "{{user `region`}}",
+      "security_group_id": "{{user `security_group_id`}}",
+      "source_ami_filter": {
+        "filters": {
+          "architecture": "x86_64",
+          "block-device-mapping.volume-type": "gp2",
+          "name": "*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": true,
+        "owners": [
+          "099720109477"
+        ]
       },
-      "owners": ["099720109477"],
-      "most_recent": true
+      "ssh_username": "ubuntu",
+      "subnet_id": "{{user `subnet_id`}}",
+      "type": "amazon-ebs"
+    }
+  ],
+  "provisioners": [
+    {
+      "inline": [
+        "echo 'Sleeping for 30 seconds to give Ubuntu enough time to initialize (otherwise, packages may fail to install).'",
+        "sleep 30"
+      ],
+      "type": "shell"
     },
-    "ssh_username": "ubuntu"
-  }],
-  "provisioners": [{
-    "type": "shell",
-    "inline": [
-      "echo 'Sleeping for 30 seconds to give Ubuntu enough time to initialize (otherwise, packages may fail to install).'",
-      "sleep 30"
-    ]
-  },{
-    "type": "shell",
-    "script": "{{template_dir}}/install-rails.sh"
-  },{
-    "type": "file",
-    "source": "{{template_dir}}/../example-rails-app",
-    "destination": "/home/ubuntu"
-  },{
-    "type": "shell",
-    "inline": [
-      "cd /home/ubuntu/example-rails-app",
-      "bundle install"
-    ]
-  }]
+    {
+      "script": "{{template_dir}}/install-rails.sh",
+      "type": "shell"
+    },
+    {
+      "destination": "/home/ubuntu",
+      "source": "{{template_dir}}/../example-rails-app",
+      "type": "file"
+    },
+    {
+      "inline": [
+        "cd /home/ubuntu/example-rails-app",
+        "bundle install"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "region": "us-west-2",
+    "subnet_id": "subnet-0ebaf6c72ca1e04ea",
+    "security_group_id": "sg-0885a25a9cb6cb701"
+  }
 }

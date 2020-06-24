@@ -13,12 +13,12 @@ variable "ami" {}
 variable "instance_type" {}
 variable "subnet_id" {}
 variable "security_group_name" {}
-variable "my_ip" {}
+//variable "my_ip" {}
 variable "ec2_username" {}
 
 # AWS key pair resource vars
 variable "key_name" {}
-variable "local_key_path" {}
+//variable "local_key_path" {}
 
 variable "name" {
   description = "The name of the EC2 instance"
@@ -30,17 +30,17 @@ data "aws_security_group" "selected" {
 }
 
 
-resource "aws_security_group_rule" "my_ip" {
-  type = "ingress"
-  from_port = 22 # SSH
-  to_port = 22
-  protocol = 6 # TCP
-  cidr_blocks = [
-    "${var.my_ip}/32"
-  ]
-  security_group_id = data.aws_security_group.selected.id
-  description = var.created_by
-}
+//resource "aws_security_group_rule" "my_ip" {
+//  type = "ingress"
+//  from_port = 22 # SSH
+//  to_port = 22
+//  protocol = 6 # TCP
+//  cidr_blocks = [
+//    "${var.my_ip}/32"
+//  ]
+//  security_group_id = data.aws_security_group.selected.id
+//  description = var.created_by
+//}
 
 resource "aws_eip" "example_eip" {
   instance = aws_instance.example.id

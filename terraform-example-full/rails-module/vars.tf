@@ -17,3 +17,13 @@ variable "port" {
   description = "The port the Ruby on Rails app should listen on for HTTP requests"
   type        = number
 }
+
+variable "vpc_id" {
+  description = "The VPC id to attach the security group onto"
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "The Subnet id to use from the VPC id"
+  type        = string
+}

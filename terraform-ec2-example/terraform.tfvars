@@ -1,5 +1,5 @@
 key_name = "intel-sandbox-shared"
-local_key_path = "/Users/spencer"
+//local_key_path = "/Users/spencer"
 subnet_id = "subnet-0ebaf6c72ca1e04ea" # existing public subnet for sandbox (shared)
 security_group_name = "launch-wizard-3"
 instance_type = "g4dn.xlarge"

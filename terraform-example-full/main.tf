@@ -1,6 +1,6 @@
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-2"
+  region = "us-west-2"
 }
 
 # This shows an example of how to use a Terraform module.
