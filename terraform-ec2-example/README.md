@@ -4,12 +4,20 @@
 
 ### Streamlined Terraform commands
 ```
-terraform init # make sure you have Terraform installed properly and are inside your AWS env
-... plan *
-... apply *
+terraform init 
+# make sure you have Terraform installed properly and are inside
+# your AWS env
+terraform plan -var name="..."
+terraform apply -var name="..."
 
+# teardown resources
+terraform destroy -var name="..."
+```
 
-After, you need to use your .pem file to access the running instance
+`get_user_json.sh` should be executable, if not:
+```buildoutcfg
+chmod a+x ./get_user_json.sh # before running 'terraform (plan | apply)'
 ```
-ssh -i '/path/to/your/${key_name}.pem' ${ec2-user}@${elastic_ipv4}
-```
+
+After, you need to use your .pem file to access the running instance 
+according to the `ssh_connection` output value
