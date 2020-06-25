@@ -21,20 +21,22 @@ data "aws_subnet" "selected" {
   }
 }
 
-
-//resource "aws_security_group_rule" "my_ip" {
-//  type = "ingress"
-//  from_port = 22
-//  # SSH
-//  to_port = 22
-//  protocol = 6
-//  # TCP
-//  cidr_blocks = [
-//    "${data.external.user.result.ip}/32"
-//  ]
-//  security_group_id = data.aws_security_group.selected.id
-//  description = data.external.user.result.name
-//}
+// USE THE BELOW IF YOU NEED TO WHITELIST YOUR IP FOR THE EXISTING SECURITY GROUP RESOURCE
+/*
+resource "aws_security_group_rule" "my_ip" {
+  type = "ingress"
+  from_port = 22
+  # SSH
+  to_port = 22
+  protocol = 6
+  # TCP
+  cidr_blocks = [
+    "${data.external.user.result.ip}/32"
+  ]
+  security_group_id = data.aws_security_group.selected.id
+  description = data.external.user.result.name
+}
+*/
 
 resource "aws_eip" "example_eip" {
   instance = aws_instance.example.id
